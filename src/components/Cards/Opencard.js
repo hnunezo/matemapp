@@ -6,6 +6,7 @@ import {
   addCorrect,
   answerExercise,
 } from "../../features/exercises/exercisesSlice";
+import { isLoading } from "../../features/page/pageSlice";
 
 import "./opencard.css";
 
@@ -21,6 +22,7 @@ const Opencard = ({ ex, index }) => {
     if (
       exercises.filter((exer) => Number(exer.userResult) === 0).length === 0
     ) {
+      dispatch(isLoading());
       navigate(`/results`);
     }
   }, [exercises]); // eslint-disable-line
@@ -34,6 +36,7 @@ const Opencard = ({ ex, index }) => {
       );
       if (Number(userAnswer) === Number(ex.result)) {
         dispatch(addCorrect());
+        console.log("correcta");
       }
       setMessage("Write your answer");
       setUserAnswer("");

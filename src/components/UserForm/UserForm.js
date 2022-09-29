@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { registerUser } from "../../features/user/userSlice";
 import { createExercises } from "../../features/exercises/exercisesSlice";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { animated, useTransition } from "react-spring";
 import { useEffect } from "react";
 import { useRef } from "react";
 import "./userform.css";
+import StyledButton from "../stateless/StyledButton";
+import RequiredMark from "../stateless/RequiredMark";
+import { isLoading } from "../../features/page/pageSlice";
 
 const UserForm = () => {
   const dispatch = useDispatch();
@@ -121,27 +124,33 @@ const UserForm = () => {
         type,
         amount,
         exercises: exercisesToAdd,
-        requirement,
+        requirement: requirement ? requirement : 0.6,
       })
     );
+    dispatch(isLoading());
     navigate("/exercises");
   };
   return (
     <div className="container-form">
-      <Button
+      <StyledButton
         onClick={() => handleCreateExercise()}
         disabled={
           amount !== "" && type !== "" && user.name !== "" ? false : true
         }
-        style={{ alignSelf: "center" }}
+        style={{
+          alignSelf: "center",
+        }}
       >
         Create Exercises
-      </Button>
+      </StyledButton>
       {transitionName((style, item) =>
         item ? (
           <animated.div style={style} className="item">
             <Form.Group className="form-field">
-              <Form.Label>Your Name</Form.Label>
+              <Form.Label>
+                Your Name
+                <RequiredMark />
+              </Form.Label>
               <div style={{ display: "flex", width: "100%" }}>
                 <Form.Control
                   ref={nameInput}
@@ -149,13 +158,15 @@ const UserForm = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <Button
-                  style={{ marginLeft: "5px" }}
+                <StyledButton
+                  style={{
+                    marginLeft: "5px",
+                  }}
                   onClick={() => handleDispatchName()}
                   disabled={name ? false : true}
                 >
                   SET
-                </Button>
+                </StyledButton>
               </div>
             </Form.Group>
           </animated.div>
@@ -166,7 +177,10 @@ const UserForm = () => {
         item ? (
           <animated.div style={style} className="item">
             <Form.Group className="form-field">
-              <Form.Label>Select type of exercises</Form.Label>
+              <Form.Label>
+                Select type of exercises
+                <RequiredMark />
+              </Form.Label>
               <Form.Select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
@@ -187,7 +201,10 @@ const UserForm = () => {
         item ? (
           <animated.div style={style} className="item">
             <Form.Group className="form-field">
-              <Form.Label>Choose amount of exercises</Form.Label>
+              <Form.Label>
+                Choose amount of exercises
+                <RequiredMark />
+              </Form.Label>
               <Form.Select
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -206,7 +223,9 @@ const UserForm = () => {
         item ? (
           <animated.div style={style} className="item">
             <Form.Group className="form-field">
-              <Form.Label>Choose the requirement to aprove</Form.Label>
+              <Form.Label>
+                {"Choose the requirement to aprove (Default 60%)"}
+              </Form.Label>
               <Form.Select
                 value={requirement}
                 onChange={(e) => setRequirement(e.target.value)}

@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import { Table } from "react-bootstrap";
 import "./results.css";
+import StyledButton from "../stateless/StyledButton";
 
 const Results = () => {
   const exercises = useSelector((state) => state.exercises);
+  const amount = useSelector((state) => state.exercises.amount);
   const correctas = useSelector((state) => state.exercises.correct);
   const requirement = Number(
     useSelector((state) => state.exercises.requirement)
@@ -24,28 +26,24 @@ const Results = () => {
           {
             y: correctas,
             label: "Correct",
-            numbers: (100 * correctas) / exercises.exercises.length,
+            numbers: (100 * correctas) / amount,
           },
           {
-            y: exercises.exercises.length - correctas,
+            y: amount - correctas,
             label: "Incorrect",
-            numbers:
-              ((exercises.exercises.length - correctas) * 100) /
-              exercises.exercises.length,
+            numbers: ((amount - correctas) * 100) / amount,
           },
         ],
       },
     ],
   };
   const formulaPrueba = () => {
-    if (requirement * exercises.exercises.length > correctas) {
-      return (
-        (4 - 1) * (correctas / (requirement * exercises.exercises.length)) + 1
-      );
+    if (correctas < requirement * amount) {
+      return (4 - 1) * (correctas / (requirement * amount)) + 1;
     } else {
       return (
-        ((7 - 4) * (correctas - requirement * exercises.exercises.length)) /
-          (exercises.exercises.length * (1 - requirement)) +
+        ((7 - 4) * (correctas - requirement * amount)) /
+          (amount * (1 - requirement)) +
         4
       );
     }
@@ -93,10 +91,12 @@ const Results = () => {
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
+          <StyledButton className="m-2 p-3">Try Again!!</StyledButton>
+
           <CanvasJSChart options={options} />
           <h2>
             {" "}
-            {correctas} / {exercises.exercises.length} Points
+            {correctas} / {amount} Points
           </h2>
           <div className="d-flex justify-content-end align-items-center">
             <h2>Your Grade:</h2>

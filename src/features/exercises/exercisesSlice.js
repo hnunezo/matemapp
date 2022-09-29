@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  type: "",
+  amount: 0,
+  exercises: [],
+  correct: 0,
+  requirement: 0.6,
+};
+
 export const exerciseSlice = createSlice({
   name: "exercises",
-  initialState: {
-    type: "",
-    amount: 0,
-    exercises: [],
-    correct: 0,
-    requirement: 0,
-  },
+  initialState,
   reducers: {
     createExercises: (state, action) => {
       state.type = action.payload.type;
@@ -23,10 +25,11 @@ export const exerciseSlice = createSlice({
     addCorrect: (state) => {
       state.correct += 1;
     },
+    reset: () => initialState,
   },
 });
 
-export const { answerExercise, addCorrect, createExercises } =
+export const { answerExercise, addCorrect, createExercises, reset } =
   exerciseSlice.actions;
 
 export default exerciseSlice.reducer;

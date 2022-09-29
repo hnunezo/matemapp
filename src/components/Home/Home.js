@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserForm from "../UserForm/UserForm";
 import { resetUser } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
 import "./home.css";
+import { reset } from "../../features/exercises/exercisesSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  dispatch(resetUser());
+  useEffect(() => {
+    dispatch(resetUser());
+    dispatch(reset());
+  }, []); // eslint-disable-line
   return (
     <div className={"container-home"}>
       <h1>Welcome to MatemApp</h1>

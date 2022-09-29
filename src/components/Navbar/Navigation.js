@@ -1,11 +1,22 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { isLoading } from "../../features/page/pageSlice";
 
 const Navigation = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const goHome = () => {
+    dispatch(isLoading());
+    navigate("/home");
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">
+        <Navbar.Brand onClick={() => goHome()}>
           <img
             src={require("../../assets/logo.png")}
             alt={"Home"}

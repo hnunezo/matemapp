@@ -9,6 +9,7 @@
   width: 400px;
   background: #f2f2f2;
   overflow: hidden;
+  border: 2px solid black;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -50,7 +51,7 @@ h3 {
   height: 100%;
   width: 50%;
   left: 0;
-  background: url("../question_mark.jpg") white;
+  background: url("../../assets/question_mark.jpg") white;
   background-position: 0%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -63,7 +64,7 @@ h3 {
   height: 100%;
   width: 50%;
   right: 0;
-  background: url("../question_mark.jpg") white;
+  background: url("../../assets/question_mark.jpg") white;
   background-position: 100%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -81,7 +82,7 @@ h3 {
   height: 100%;
   width: 50%;
   left: 0;
-  background: url("../question_mark.jpg") white;
+  background: url("../../assets/question_mark.jpg") white;
   background-position: 0%;
   background-repeat: no-repeat;
   transition: 1s;
@@ -94,7 +95,7 @@ h3 {
   height: 100%;
   width: 50%;
   right: 0;
-  background: url("../question_mark.jpg") white;
+  background: url("../../assets/question_mark.jpg") white;
   background-position: 100%;
   background-repeat: no-repeat;
   transition: 1s;
@@ -111,7 +112,7 @@ h3 {
   height: 100%;
   width: 50%;
   left: 0;
-  background: url("../answered.png") white;
+  background: url("../../assets/answered.png") white;
   background-size: cover;
   background-position: 0%;
   background-repeat: no-repeat;
@@ -123,7 +124,7 @@ h3 {
   height: 100%;
   width: 50%;
   right: 0;
-  background: url("../answered.png") white;
+  background: url("../../assets/answered.png") white;
   background-position: 100%;
   background-size: cover;
   background-repeat: no-repeat;

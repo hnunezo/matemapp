@@ -1,0 +1,35 @@
+th {
+  vertical-align: middle;
+}
+
+tr {
+  text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black,
+    1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+  text-align: center;
+  align-items: center;
+  color: white;
+}
+
+.custom-table {
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-right: 3rem;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+}
+
+.lasttr {
+  border-radius: 1rem;
+}
+
+tbody {
+  border-bottom: black solid 3px !important;
+}
+
+thead {
+  border-bottom: black solid 5px !important;
+}
+
+thead {
+  background-color: white;
+}

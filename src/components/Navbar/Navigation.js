@@ -10,7 +10,7 @@ const Navigation = () => {
 
   const goHome = () => {
     dispatch(isLoading());
-    navigate("/home");
+    navigate("/");
   };
 
   return (

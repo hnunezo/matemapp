@@ -32,7 +32,7 @@ const App = () => {
           <Navigation />
           <Container className="d-flex flex-column align-items-center mt-5">
             <Routes>
-              <Route index path="/home" element={<Home />} />
+              <Route index path="/" element={<Home />} />
               <Route path="/quick" element={<UserForm />} />
               <Route
                 path="/exercises"

@@ -21,7 +21,7 @@ const UserForm = () => {
   const [amountIsVisible, setAmountVisible] = useState(true);
   const [requirementIsVisible, setRequirementVisible] = useState(true);
   const nameInput = useRef(null);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(user.name ? user.name : "");
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [requirement, setRequirement] = useState("");
@@ -146,29 +146,32 @@ const UserForm = () => {
       {transitionName((style, item) =>
         item ? (
           <animated.div style={style} className="item">
-            <Form.Group className="form-field">
-              <Form.Label>
-                Your Name
-                <RequiredMark />
-              </Form.Label>
-              <div style={{ display: "flex", width: "100%" }}>
-                <Form.Control
-                  ref={nameInput}
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <StyledButton
-                  style={{
-                    marginLeft: "5px",
-                  }}
-                  onClick={() => handleDispatchName()}
-                  disabled={name ? false : true}
-                >
-                  SET
-                </StyledButton>
-              </div>
-            </Form.Group>
+            {
+              <Form.Group className="form-field">
+                <Form.Label>
+                  Your Name
+                  <RequiredMark />
+                </Form.Label>
+                <div style={{ display: "flex", width: "100%" }}>
+                  <Form.Control
+                    ref={nameInput}
+                    name="name"
+                    value={name}
+                    disabled={user.name ? true : false}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <StyledButton
+                    style={{
+                      marginLeft: "5px",
+                    }}
+                    onClick={() => handleDispatchName()}
+                    disabled={name && user.name === "" ? false : true}
+                  >
+                    SET
+                  </StyledButton>
+                </div>
+              </Form.Group>
+            }
           </animated.div>
         ) : null
       )}

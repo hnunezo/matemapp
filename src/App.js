@@ -30,7 +30,7 @@ const App = () => {
       ) : (
         <>
           <Navigation />
-          <Container className="d-flex flex-column align-items-center mt-5">
+          <Container className="d-flex flex-column align-items-center mt-5 mb-5">
             <Routes>
               <Route index path="/" element={<Home />} />
               <Route path="/quick" element={<UserForm />} />

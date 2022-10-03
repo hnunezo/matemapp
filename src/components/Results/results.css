@@ -40,4 +40,17 @@ thead {
   flex-direction: column;
 }
 
+.summary {
+  display: flex;
+  margin-top: 5rem;
+}
 
+@media (max-width: 992px) {
+  .summary {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .container-chart {
+    gap: 3rem;
+  }
+}

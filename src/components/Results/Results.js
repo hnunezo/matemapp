@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import { Table } from "react-bootstrap";
 import "./results.css";
 import StyledButton from "../stateless/StyledButton";
+import { useNavigate } from "react-router-dom";
+import { isLoading, setAgainTrue } from "../../features/page/pageSlice";
 
 const Results = () => {
   const exercises = useSelector((state) => state.exercises);
@@ -12,6 +14,8 @@ const Results = () => {
   const requirement = Number(
     useSelector((state) => state.exercises.requirement)
   );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const options = {
     animationEnabled: true,
@@ -48,11 +52,16 @@ const Results = () => {
       );
     }
   };
+  const goHome = () => {
+    dispatch(setAgainTrue());
+    dispatch(isLoading());
+    navigate("/");
+  };
 
   return (
     <div style={{ textAlign: "center", width: "100%" }}>
       <h2 className="h1">Summary</h2>
-      <div style={{ display: "flex", marginTop: "5rem" }}>
+      <div className="summary">
         <Table className="custom-table">
           <thead>
             <tr>
@@ -89,8 +98,6 @@ const Results = () => {
           </tbody>
         </Table>
         <div className="container-chart">
-          <StyledButton className="m-2 p-3">Try Again!!</StyledButton>
-
           <CanvasJSChart options={options} />
           <h2>
             {" "}
@@ -111,6 +118,9 @@ const Results = () => {
               </h2>
             </div>
           </div>
+          <StyledButton className="m-2 p-3" onClick={() => goHome()}>
+            Try Again!!
+          </StyledButton>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   height: 400px;
-  width: 400px;
+  width: 20rem;
   background: #f2f2f2;
   overflow: hidden;
   border: 2px solid black;
@@ -52,7 +52,7 @@ h3 {
   width: 50%;
   left: 0;
   background: url("../../assets/question_mark.jpg") white;
-  background-position: 0%;
+  background-position: 19%;
   background-size: cover;
   background-repeat: no-repeat;
   transition: 1s;
@@ -65,7 +65,7 @@ h3 {
   width: 50%;
   right: 0;
   background: url("../../assets/question_mark.jpg") white;
-  background-position: 100%;
+  background-position: 85%;
   background-size: cover;
   background-repeat: no-repeat;
   transition: 1s;

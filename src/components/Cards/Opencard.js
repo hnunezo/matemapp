@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import {
   addCorrect,
   answerExercise,
@@ -9,6 +9,7 @@ import {
 import { isLoading } from "../../features/page/pageSlice";
 
 import "./opencard.css";
+import StyledButton from "../stateless/StyledButton";
 
 const Opencard = ({ ex, index }) => {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ const Opencard = ({ ex, index }) => {
   };
 
   return (
-    <div style={{ position: "static", margin: "3rem" }}>
+    <div style={{ position: "static", margin: "4rem 8rem" }}>
       <div className="container-card">
         <div className="content">
           <h1>Exercise {ex.id}</h1>
@@ -65,12 +66,12 @@ const Opencard = ({ ex, index }) => {
               {message}
             </Form.Text>
           </Form.Group>
-          <Button
+          <StyledButton
             className="btn btn-success my-4"
             onClick={() => handelAnswer()}
           >
             Answer
-          </Button>
+          </StyledButton>
         </div>
         <div
           className={

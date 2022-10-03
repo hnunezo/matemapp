@@ -88,9 +88,7 @@ const Results = () => {
             })}
           </tbody>
         </Table>
-        <div
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <div className="container-chart">
           <StyledButton className="m-2 p-3">Try Again!!</StyledButton>
 
           <CanvasJSChart options={options} />

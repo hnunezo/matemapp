@@ -33,3 +33,11 @@ thead {
 thead {
   background-color: white;
 }
+
+.container-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+

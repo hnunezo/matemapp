@@ -1,12 +1,11 @@
 import React from "react";
 import Opencard from "../Cards/Opencard";
-import { useSelector } from "react-redux";
 
 const Exercises = ({ exercises }) => {
-  const name = useSelector((state) => state.user.name);
+  console.log(exercises);
   return (
     <div style={{ width: "100%" }}>
-      <h1>Welcome {name}</h1>
+      <h1>Exercises</h1>
       <p className="text-muted lead text-center">
         I prepared these exercises for you, click on them to open them.
       </p>

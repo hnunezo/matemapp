@@ -1,37 +1,30 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { registerUser } from "../../features/user/userSlice";
 import { createExercises } from "../../features/exercises/exercisesSlice";
 import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { animated, useTransition } from "react-spring";
 import { useEffect } from "react";
-import { useRef } from "react";
 import "./userform.css";
 import StyledButton from "../stateless/StyledButton";
 import RequiredMark from "../stateless/RequiredMark";
-import { isLoading } from "../../features/page/pageSlice";
+import { isLoading, setExam } from "../../features/page/pageSlice";
+import examsSevice from "../../services/exams";
 
 const UserForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  const [nameIsVisible, setNameVisible] = useState(true);
   const [typeIsVisible, setTypeVisible] = useState(true);
   const [amountIsVisible, setAmountVisible] = useState(true);
   const [requirementIsVisible, setRequirementVisible] = useState(true);
-  const nameInput = useRef(null);
-  const [name, setName] = useState(user.name ? user.name : "");
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [requirement, setRequirement] = useState("");
+  console.log(user.token, "token");
 
   //DEFINE TRANSITIONS DEPENDENCIES
-  const transitionName = useTransition(nameIsVisible, {
-    from: { x: -100, y: 800, opacity: 0 },
-    enter: { x: 0, y: 0, opacity: 1 },
-    leave: { x: -100, y: 800, opacity: 0 },
-  });
+
   const transitionRequirement = useTransition(requirementIsVisible, {
     from: { x: -100, y: 800, opacity: 0 },
     enter: { x: 0, y: 0, opacity: 1 },
@@ -58,13 +51,6 @@ const UserForm = () => {
   useEffect(() => {
     if (requirement !== "") setRequirementVisible(false);
   }, [requirement]);
-
-  const handleDispatchName = () => {
-    if (name !== "") {
-      dispatch(registerUser(name));
-      setNameVisible(false);
-    }
-  };
 
   //CREATE EXERCISES FUNCTION
   const handleCreateExercise = () => {
@@ -127,6 +113,17 @@ const UserForm = () => {
         requirement: requirement ? requirement : 0.6,
       })
     );
+    examsSevice
+      .postExam(
+        {
+          type,
+          requirement: requirement ? requirement : 0.6,
+          grade: "",
+          questions: exercisesToAdd,
+        },
+        `Bearer ${user.token}`
+      )
+      .then((res) => dispatch(setExam(res)));
     dispatch(isLoading());
     navigate("/exercises");
   };
@@ -143,38 +140,6 @@ const UserForm = () => {
       >
         Create Exercises
       </StyledButton>
-      {transitionName((style, item) =>
-        item ? (
-          <animated.div style={style} className="item">
-            {
-              <Form.Group className="form-field">
-                <Form.Label>
-                  Your Name
-                  <RequiredMark />
-                </Form.Label>
-                <div style={{ display: "flex", width: "100%" }}>
-                  <Form.Control
-                    ref={nameInput}
-                    name="name"
-                    value={name}
-                    disabled={user.name ? true : false}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <StyledButton
-                    style={{
-                      marginLeft: "5px",
-                    }}
-                    onClick={() => handleDispatchName()}
-                    disabled={name && user.name === "" ? false : true}
-                  >
-                    SET
-                  </StyledButton>
-                </div>
-              </Form.Group>
-            }
-          </animated.div>
-        ) : null
-      )}
 
       {transitionType((style, item) =>
         item ? (

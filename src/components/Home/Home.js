@@ -1,33 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import UserForm from "../UserForm/UserForm";
-import { resetUser } from "../../features/user/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./home.css";
-import { reset } from "../../features/exercises/exercisesSlice";
+import StyledButton from "../stateless/StyledButton";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const againState = useSelector((state) => state.page.again);
-  useEffect(() => {
-    if (againState === false) {
-      dispatch(resetUser());
-    }
-    dispatch(reset());
-  }, []); // eslint-disable-line
+  const user = useSelector((state) => state.user.user);
+  const [newExam, setNewExam] = useState(false);
+
   return (
     <div className={"container-home"}>
       <h1>
-        Welcome to{" "}
+        Welcome {user ? user.username : "Anon"} to{" "}
         <img
           src={require("../../assets/logo.png")}
           style={{ width: "13rem" }}
           alt="logo"
         />
       </h1>
-      <p className="text-muted lead text-center">
-        A simple math-quiz app for exercises your logical skills.
-      </p>
-      <UserForm />
+      <StyledButton onClick={() => setNewExam(!newExam)}>New Exam</StyledButton>
+      {newExam ? <UserForm /> : null}
     </div>
   );
 };

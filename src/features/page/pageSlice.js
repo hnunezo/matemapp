@@ -5,6 +5,7 @@ export const pageSlice = createSlice({
   initialState: {
     loading: false,
     again: false,
+    actualExam: "",
   },
   reducers: {
     isLoading: (state) => {
@@ -19,10 +20,13 @@ export const pageSlice = createSlice({
     setAgainFalse: (state) => {
       state.again = false;
     },
+    setExam: (state, action) => {
+      state.actualExam = action.payload;
+    },
   },
 });
 
-export const { isLoading, isNot, setAgainTrue, setAgainFalse } =
+export const { isLoading, isNot, setAgainTrue, setAgainFalse, setExam } =
   pageSlice.actions;
 
 export default pageSlice.reducer;

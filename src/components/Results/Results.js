@@ -6,7 +6,7 @@ import "./results.css";
 import StyledButton from "../stateless/StyledButton";
 import { useNavigate } from "react-router-dom";
 import { isLoading, setAgainTrue } from "../../features/page/pageSlice";
-
+import examsService from "../../services/exams";
 const Results = () => {
   const exercises = useSelector((state) => state.exercises);
   const amount = useSelector((state) => state.exercises.amount);
@@ -14,6 +14,10 @@ const Results = () => {
   const requirement = Number(
     useSelector((state) => state.exercises.requirement)
   );
+  const actualExam = useSelector((state) => state.page.actualExam);
+  const token = useSelector((state) => state.user.token);
+  console.log(token, "token");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,8 +47,31 @@ const Results = () => {
   };
   const formulaPrueba = () => {
     if (correctas < requirement * amount) {
+      examsService
+        .answerExam(
+          actualExam.id,
+          {
+            questions: exercises.exercises,
+            grade: (4 - 1) * (correctas / (requirement * amount)) + 1,
+          },
+          `Bearer ${token}`
+        )
+        .then((res) => console.log(res));
       return (4 - 1) * (correctas / (requirement * amount)) + 1;
     } else {
+      examsService
+        .answerExam(
+          actualExam.id,
+          {
+            questions: exercises.exercises,
+            grade:
+              ((7 - 4) * (correctas - requirement * amount)) /
+                (amount * (1 - requirement)) +
+              4,
+          },
+          `Bearer ${token}`
+        )
+        .then((res) => console.log(res));
       return (
         ((7 - 4) * (correctas - requirement * amount)) /
           (amount * (1 - requirement)) +

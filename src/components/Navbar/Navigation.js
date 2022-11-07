@@ -1,18 +1,37 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isLoading, setAgainFalse } from "../../features/page/pageSlice";
+import { resetUser, setToken } from "../../features/user/userSlice";
 import "./navigation.css";
 
 const Navigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.token);
 
   const goHome = () => {
     dispatch(setAgainFalse());
     dispatch(isLoading());
+    navigate(token ? "/home" : "/");
+  };
+  const goRegister = () => {
+    dispatch(isLoading());
+    navigate("/register");
+  };
+
+  const logOut = () => {
+    dispatch(setToken(""));
+    dispatch(resetUser());
+    window.localStorage.removeItem("MathAppToken");
+    dispatch(isLoading());
     navigate("/");
+  };
+
+  const goLogin = () => {
+    dispatch(isLoading());
+    navigate("/login");
   };
 
   return (
@@ -42,6 +61,20 @@ const Navigation = () => {
             >
               Linkedin
             </Nav.Link>
+            {token ? (
+              <Nav.Link onClick={() => logOut()} className="text-light">
+                Log Out
+              </Nav.Link>
+            ) : (
+              <div>
+                <Nav.Link onClick={() => goLogin()} className="text-light">
+                  Log In
+                </Nav.Link>
+                <Nav.Link onClick={() => goRegister()} className="text-light">
+                  Regsiter
+                </Nav.Link>
+              </div>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

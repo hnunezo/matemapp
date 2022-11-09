@@ -14,8 +14,6 @@ const RegisterForm = () => {
     email: "",
   });
 
-  console.log(form, "form");
-
   const register = (e) => {
     e.preventDefault();
     usersService.registerUser(form).then((res) => setRegistered(true));

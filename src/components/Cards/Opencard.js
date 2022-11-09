@@ -37,7 +37,6 @@ const Opencard = ({ ex, index }) => {
       );
       if (Number(userAnswer) === Number(ex.result)) {
         dispatch(addCorrect());
-        console.log("correcta");
       }
       setMessage("Write your answer");
       setUserAnswer("");

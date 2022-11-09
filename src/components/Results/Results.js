@@ -56,7 +56,7 @@ const Results = () => {
             },
             `Bearer ${token}`
           )
-          .then((res) => console.log(res));
+          .then((res) => {});
         return (4 - 1) * (correctas / (requirement * amount)) + 1;
       } else {
         examsService
@@ -71,7 +71,7 @@ const Results = () => {
             },
             `Bearer ${token}`
           )
-          .then((res) => console.log(res));
+          .then((res) => {});
         return (
           ((7 - 4) * (correctas - requirement * amount)) /
             (amount * (1 - requirement)) +

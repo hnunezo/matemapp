@@ -7,7 +7,6 @@ import StyledButton from "../stateless/StyledButton";
 const Home = () => {
   const user = useSelector((state) => state.user.user);
   const [newExam, setNewExam] = useState(false);
-  console.log(user, "user");
 
   return (
     <div className={"container-home"}>

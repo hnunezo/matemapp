@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import "./userform.css";
 import StyledButton from "../stateless/StyledButton";
 import RequiredMark from "../stateless/RequiredMark";
-import { isLoading, setExam } from "../../features/page/pageSlice";
+import { isLoading } from "../../features/page/pageSlice";
 import examsSevice from "../../services/exams";
 
 const UserForm = () => {
@@ -21,7 +21,6 @@ const UserForm = () => {
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [requirement, setRequirement] = useState("");
-  console.log(user.token, "token");
 
   //DEFINE TRANSITIONS DEPENDENCIES
 
@@ -105,25 +104,37 @@ const UserForm = () => {
       }
       exercisesToAdd.push(exercise);
     }
-    dispatch(
-      createExercises({
-        type,
-        amount,
-        exercises: exercisesToAdd,
-        requirement: requirement ? requirement : 0.6,
-      })
-    );
-    examsSevice
-      .postExam(
-        {
-          type,
-          requirement: requirement ? requirement : 0.6,
-          grade: "",
-          questions: exercisesToAdd,
-        },
-        `Bearer ${user.token}`
-      )
-      .then((res) => dispatch(setExam(res)));
+
+    user.token
+      ? examsSevice
+          .postExam(
+            {
+              type,
+              requirement: requirement ? requirement : 0.6,
+              grade: "",
+              questions: exercisesToAdd,
+            },
+            `Bearer ${user.token}`
+          )
+          .then((res) =>
+            dispatch(
+              createExercises({
+                id: res.id,
+                type: res.type,
+                amount: res.questions.length,
+                exercises: res.questions,
+                requirement: res.requirement,
+              })
+            )
+          )
+      : dispatch(
+          createExercises({
+            type,
+            requirement: requirement ? requirement : 0.6,
+            grade: "",
+            exercises: exercisesToAdd,
+          })
+        );
     dispatch(isLoading());
     navigate("/exercises");
   };
@@ -137,6 +148,7 @@ const UserForm = () => {
         style={{
           alignSelf: "center",
         }}
+        className="mt-3 w-100"
       >
         Create Exercises
       </StyledButton>
@@ -189,10 +201,11 @@ const UserForm = () => {
       )}
       {transitionRequirement((style, item) =>
         item ? (
-          <animated.div style={style} className="item">
+          <animated.div style={style} className="item mb-5">
             <Form.Group className="form-field">
               <Form.Label>
-                {"Choose the requirement to aprove (Default 60%)"}
+                Choose the requirement to aprove{" "}
+                <span style={{ color: "red" }}>{`(Default 60%)`}</span>
               </Form.Label>
               <Form.Select
                 value={requirement}

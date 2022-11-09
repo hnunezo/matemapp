@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isLoading, setAgainFalse } from "../../features/page/pageSlice";
+import { isLoading } from "../../features/page/pageSlice";
 import { resetUser, setToken } from "../../features/user/userSlice";
 import "./navigation.css";
 
@@ -12,7 +12,6 @@ const Navigation = () => {
   const token = useSelector((state) => state.user.token);
 
   const goHome = () => {
-    dispatch(setAgainFalse());
     dispatch(isLoading());
     navigate(token ? "/home" : "/");
   };
@@ -22,9 +21,9 @@ const Navigation = () => {
   };
 
   const logOut = () => {
+    window.localStorage.removeItem("MathAppToken");
     dispatch(setToken(""));
     dispatch(resetUser());
-    window.localStorage.removeItem("MathAppToken");
     dispatch(isLoading());
     navigate("/");
   };
@@ -35,7 +34,12 @@ const Navigation = () => {
   };
 
   return (
-    <Navbar bg="black" expand="lg" variant="dark">
+    <Navbar
+      bg="black"
+      expand="lg"
+      variant="dark"
+      style={{ height: "10%", padding: 0 }}
+    >
       <Container>
         <Navbar.Brand onClick={() => goHome()}>
           <img
@@ -46,35 +50,44 @@ const Navigation = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto ">
+          <Nav className="ms-auto">
+            {token ? (
+              <Nav.Link
+                onClick={() => logOut()}
+                className="text-light link-nav"
+              >
+                Log Out
+              </Nav.Link>
+            ) : (
+              <>
+                <Nav.Link
+                  onClick={() => goLogin()}
+                  className="text-light link-nav"
+                >
+                  Login
+                </Nav.Link>
+                <Nav.Link
+                  onClick={() => goRegister()}
+                  className="text-light link-nav"
+                >
+                  Register
+                </Nav.Link>
+              </>
+            )}
             <Nav.Link
               href="https://github.com/hnunezo/matemapp"
               target={"_blank"}
-              className="text-light"
+              className="text-light link-nav"
             >
               GIT
             </Nav.Link>
             <Nav.Link
               href="https://www.linkedin.com/in/hector-nuñez-oviedo-a054171a7/"
               target={"_blank"}
-              className="text-light"
+              className="text-light link-nav"
             >
               Linkedin
             </Nav.Link>
-            {token ? (
-              <Nav.Link onClick={() => logOut()} className="text-light">
-                Log Out
-              </Nav.Link>
-            ) : (
-              <div>
-                <Nav.Link onClick={() => goLogin()} className="text-light">
-                  Log In
-                </Nav.Link>
-                <Nav.Link onClick={() => goRegister()} className="text-light">
-                  Regsiter
-                </Nav.Link>
-              </div>
-            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

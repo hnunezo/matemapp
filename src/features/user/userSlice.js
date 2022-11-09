@@ -1,9 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
+const userLogged = window.localStorage.getItem("MathAppToken");
+let initialState = {
   user: "",
   token: "",
 };
+
+if (userLogged) {
+  const userWithToken = JSON.parse(userLogged);
+  initialState = {
+    user: userWithToken.user,
+    token: userWithToken.token,
+  };
+}
 
 export const userSlice = createSlice({
   name: "user",
@@ -15,7 +23,12 @@ export const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    resetUser: () => initialState,
+    resetUser: (state) => {
+      state = {
+        user: "",
+        token: "",
+      };
+    },
   },
 });
 

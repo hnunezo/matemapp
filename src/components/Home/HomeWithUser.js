@@ -2,24 +2,46 @@ import React from "react";
 import StyledButton from "../stateless/StyledButton";
 import UserForm from "../UserForm/UserForm";
 import examsService from "../../services/exams";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  createExercises,
+  reset,
+} from "../../features/exercises/exercisesSlice";
+import { isLoading } from "../../features/page/pageSlice";
+import "./home.css";
 
 const HomeWithUser = () => {
   const user = useSelector((state) => state.user.user);
   const [newExam, setNewExam] = useState(false);
   const [exams, setExams] = useState([""]);
-  console.log(exams, "exams");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(reset());
     if (user) {
       examsService.getExams(user.id).then((res) => setExams(res));
     }
   }, []); // eslint-disable-line
 
+  const handleContinue = (el) => {
+    dispatch(
+      createExercises({
+        id: el.id,
+        type: el.type,
+        amount: el.questions.length,
+        exercises: el.questions,
+        requirement: el.requirement,
+      })
+    );
+    dispatch(isLoading());
+    navigate("/exam/exercises");
+  };
   return (
-    <div className={"container-home"}>
+    <div className={"container-home scroll"}>
       <h1>
         Welcome {user.username} to{" "}
         <img
@@ -28,35 +50,55 @@ const HomeWithUser = () => {
           alt="logo"
         />
       </h1>
-      {exams ? (
-        <div>
+
+      <StyledButton onClick={() => setNewExam(!newExam)} className="mb-1">
+        {newExam === false ? "New Exam" : "Back"}
+      </StyledButton>
+      {newExam ? (
+        <UserForm />
+      ) : exams ? (
+        <div className="d-flex flex-column align-items-center">
           <h2>My exams</h2>
-          <table style={{ width: "100%" }}>
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Requirement</th>
-                <th>Grade</th>
-                <th>State</th>
-              </tr>
-            </thead>
-            <tbody>
-              {exams.map((el) => (
-                <tr key={el.id}>
-                  <td>{el.type}</td>
-                  <td>{el.date}</td>
-                  <td>{el.requirement * 100}%</td>
-                  <td>{el.grade}</td>
-                  <td>{el.grade ? "Complete" : "Incomplete"}</td>
+          <div>
+            <table className={"home-table"}>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Requirement</th>
+                  <th>Grade</th>
+                  <th>State</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+            </table>
+          </div>
+          <div className="scrollable-table">
+            <table className="home-table">
+              <tbody>
+                {exams.map((el, i) => (
+                  <tr key={i}>
+                    <td>{el.type}</td>
+                    <td>{el.date}</td>
+                    <td>{el.requirement * 100}%</td>
+                    <td>
+                      {el.grade === "" ? "?" : Number(el.grade).toFixed(1)}
+                    </td>
+                    <td>
+                      {el.grade ? (
+                        "Complete"
+                      ) : (
+                        <StyledButton onClick={() => handleContinue(el)}>
+                          Incomplete
+                        </StyledButton>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : null}
-      <StyledButton onClick={() => setNewExam(!newExam)}>New Exam</StyledButton>
-      {newExam ? <UserForm /> : null}
     </div>
   );
 };

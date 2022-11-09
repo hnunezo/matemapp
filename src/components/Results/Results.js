@@ -5,24 +5,23 @@ import { Table } from "react-bootstrap";
 import "./results.css";
 import StyledButton from "../stateless/StyledButton";
 import { useNavigate } from "react-router-dom";
-import { isLoading, setAgainTrue } from "../../features/page/pageSlice";
+import { isLoading } from "../../features/page/pageSlice";
 import examsService from "../../services/exams";
 const Results = () => {
   const exercises = useSelector((state) => state.exercises);
-  const amount = useSelector((state) => state.exercises.amount);
+  const amount = useSelector((state) => state.exercises.exercises.length);
   const correctas = useSelector((state) => state.exercises.correct);
   const requirement = Number(
     useSelector((state) => state.exercises.requirement)
   );
-  const actualExam = useSelector((state) => state.page.actualExam);
   const token = useSelector((state) => state.user.token);
-  console.log(token, "token");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const options = {
     animationEnabled: true,
+    height: 200,
     exportEnabled: true,
     theme: "light1", // "light1", "dark1", "dark2"
     data: [
@@ -46,48 +45,59 @@ const Results = () => {
     ],
   };
   const formulaPrueba = () => {
-    if (correctas < requirement * amount) {
-      examsService
-        .answerExam(
-          actualExam.id,
-          {
-            questions: exercises.exercises,
-            grade: (4 - 1) * (correctas / (requirement * amount)) + 1,
-          },
-          `Bearer ${token}`
-        )
-        .then((res) => console.log(res));
-      return (4 - 1) * (correctas / (requirement * amount)) + 1;
+    if (token) {
+      if (correctas < requirement * amount) {
+        examsService
+          .answerExam(
+            exercises.id,
+            {
+              questions: exercises.exercises,
+              grade: (4 - 1) * (correctas / (requirement * amount)) + 1,
+            },
+            `Bearer ${token}`
+          )
+          .then((res) => console.log(res));
+        return (4 - 1) * (correctas / (requirement * amount)) + 1;
+      } else {
+        examsService
+          .answerExam(
+            exercises.id,
+            {
+              questions: exercises.exercises,
+              grade:
+                ((7 - 4) * (correctas - requirement * amount)) /
+                  (amount * (1 - requirement)) +
+                4,
+            },
+            `Bearer ${token}`
+          )
+          .then((res) => console.log(res));
+        return (
+          ((7 - 4) * (correctas - requirement * amount)) /
+            (amount * (1 - requirement)) +
+          4
+        );
+      }
     } else {
-      examsService
-        .answerExam(
-          actualExam.id,
-          {
-            questions: exercises.exercises,
-            grade:
-              ((7 - 4) * (correctas - requirement * amount)) /
-                (amount * (1 - requirement)) +
-              4,
-          },
-          `Bearer ${token}`
-        )
-        .then((res) => console.log(res));
-      return (
-        ((7 - 4) * (correctas - requirement * amount)) /
-          (amount * (1 - requirement)) +
-        4
-      );
+      if (correctas < requirement * amount) {
+        return (4 - 1) * (correctas / (requirement * amount)) + 1;
+      } else {
+        return (
+          ((7 - 4) * (correctas - requirement * amount)) /
+            (amount * (1 - requirement)) +
+          4
+        );
+      }
     }
   };
   const goHome = () => {
-    dispatch(setAgainTrue());
     dispatch(isLoading());
-    navigate("/");
+    navigate("/home");
   };
 
   return (
     <div style={{ textAlign: "center", width: "100%" }}>
-      <h2 className="h1">Summary</h2>
+      <h1>Summary</h1>
       <div className="summary">
         <Table className="custom-table">
           <thead>
@@ -125,7 +135,10 @@ const Results = () => {
           </tbody>
         </Table>
         <div className="container-chart">
-          <CanvasJSChart options={options} />
+          <div style={{ height: "220px" }}>
+            <CanvasJSChart options={options} />
+          </div>
+
           <h2>
             {" "}
             {correctas} / {amount} Points
@@ -145,7 +158,10 @@ const Results = () => {
               </h2>
             </div>
           </div>
-          <StyledButton className="m-2 p-3" onClick={() => goHome()}>
+          <StyledButton
+            className="m-2 p-3 w-100 d-flex align-items-center justify-content-center"
+            onClick={() => goHome()}
+          >
             Try Again!!
           </StyledButton>
         </div>

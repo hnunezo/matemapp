@@ -5,6 +5,7 @@ import usersService from "../../services/users";
 
 const RegisterForm = () => {
   //username, password, fname, lname, email
+  const [registered, setRegistered] = useState(false);
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -17,7 +18,7 @@ const RegisterForm = () => {
 
   const register = (e) => {
     e.preventDefault();
-    usersService.registerUser(form).then((res) => console.log(res));
+    usersService.registerUser(form).then((res) => setRegistered(true));
     setForm({
       username: "",
       password: "",
@@ -66,43 +67,59 @@ const RegisterForm = () => {
     }
   };
   return (
-    <div>
-      <Form>
-        <Form.Group>
-          <Form.Control
-            name="username"
-            placeholder="Username..."
-            value={form.username}
-            onChange={handleOnChange}
-          />
-          <Form.Control
-            name="password"
-            type="password"
-            placeholder="Password..."
-            value={form.password}
-            onChange={handleOnChange}
-          />
-          <Form.Control
-            name="fname"
-            placeholder="Name..."
-            value={form.fname}
-            onChange={handleOnChange}
-          />
-          <Form.Control
-            name="lname"
-            placeholder="Last Name..."
-            value={form.lname}
-            onChange={handleOnChange}
-          />
-          <Form.Control
-            name="email"
-            placeholder="Email..."
-            value={form.email}
-            onChange={handleOnChange}
-          />
-          <StyledButton onClick={register}>Register!!</StyledButton>
-        </Form.Group>
-      </Form>
+    <div
+      style={{
+        height: "70vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      {registered === false ? (
+        <>
+          <h1>Register</h1>
+          <Form className="mt-5 d-flex flex-column align-items-center justify-content-center gap-5">
+            <Form.Group className="d-flex gap-5">
+              <Form.Control
+                name="username"
+                placeholder="Username..."
+                value={form.username}
+                onChange={handleOnChange}
+              />
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="Password..."
+                value={form.password}
+                onChange={handleOnChange}
+              />
+            </Form.Group>
+            <Form.Group className="d-flex gap-5">
+              <Form.Control
+                name="fname"
+                placeholder="Name..."
+                value={form.fname}
+                onChange={handleOnChange}
+              />
+              <Form.Control
+                name="lname"
+                placeholder="Last Name..."
+                value={form.lname}
+                onChange={handleOnChange}
+              />
+            </Form.Group>
+            <Form.Control
+              name="email"
+              placeholder="Email..."
+              value={form.email}
+              onChange={handleOnChange}
+            />
+            <StyledButton onClick={register}>Register!!</StyledButton>
+          </Form>
+        </>
+      ) : (
+        <h2>Registered!! Go to login</h2>
+      )}
     </div>
   );
 };

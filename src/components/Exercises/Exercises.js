@@ -2,7 +2,6 @@ import React from "react";
 import Opencard from "../Cards/Opencard";
 
 const Exercises = ({ exercises }) => {
-  console.log(exercises);
   return (
     <div style={{ width: "100%" }}>
       <h1>Exercises</h1>

@@ -3,3 +3,11 @@
   filter: drop-shadow(0.5px 0.5px 0 white) drop-shadow(-0.5px 0.5px 0 white)
     drop-shadow(0.5px -0.5px 0 white) drop-shadow(-0.5px -0.5px 0 white);
 }
+
+.link-nav {
+  border-bottom: 2px black solid;
+}
+
+.link-nav:hover {
+  border-bottom: 2px white solid;
+}

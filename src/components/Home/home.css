@@ -1,5 +1,28 @@
 .container-home {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  align-items: center;
+}
+.home-table {
+  width: 100%;
+}
+.home-table tr,
+th,
+td {
+  width: 10rem;
+}
+.home-table tbody {
+  border-bottom: none !important;
+}
+.scrollable-table {
+  overflow: auto;
+  max-height: 18rem;
+  border-bottom: black solid 5px;
+}
+.home-table tr {
+  height: 3rem;
+  text-shadow: none;
+  text-align: center;
+  align-items: center;
+  color: black;
 }

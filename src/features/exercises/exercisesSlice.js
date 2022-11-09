@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  id: "",
   type: "",
   amount: 0,
   exercises: [],
@@ -13,6 +14,7 @@ export const exerciseSlice = createSlice({
   initialState,
   reducers: {
     createExercises: (state, action) => {
+      state.id = action.payload.id;
       state.type = action.payload.type;
       state.amount = action.payload.amount;
       state.exercises = action.payload.exercises;

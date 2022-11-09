@@ -2,6 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: overlay;
 }
 
 * {
@@ -21,4 +22,12 @@ body {
     #00a5ec 75%,
     #0096e7 100%
   );
+}
+* ::-webkit-scrollbar {
+  width: 0.5rem;
+  background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: black;
 }

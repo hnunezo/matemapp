@@ -7,6 +7,8 @@ const StyledButton = styled.button`
   border-radius: 9px;
   padding: 0.5rem;
   border: 2px solid black;
+  width: 7rem;
+  height: 3rem;
 
   &:disabled {
     color: white;
@@ -17,6 +19,7 @@ const StyledButton = styled.button`
   &:hover:enabled {
     background-color: white;
     color: black;
+    box-shadow: 4px 4px;
   }
 `;
 

@@ -5,14 +5,13 @@ import loginService from "../../services/login";
 import { useDispatch } from "react-redux";
 import { login, setToken } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { isLoading, setAgainFalse } from "../../features/page/pageSlice";
+import { isLoading } from "../../features/page/pageSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const goHome = () => {
-    dispatch(setAgainFalse());
     dispatch(isLoading());
     navigate("/home");
   };
@@ -38,10 +37,13 @@ const Login = () => {
     }
   };
   return (
-    <div>
+    <div
+      style={{ height: "70vh" }}
+      className={"d-flex flex-column justify-content-center"}
+    >
       <h1>Login</h1>
-      <Form>
-        <Form.Group>
+      <Form className="mt-5">
+        <Form.Group className="d-flex flex-column align-items-center">
           <Form.Control
             name="email"
             placeholder="Email..."
@@ -68,8 +70,11 @@ const Login = () => {
                 };
               })
             }
+            className="mt-3"
           />
-          <StyledButton onClick={handleSubmit}>Login</StyledButton>
+          <StyledButton onClick={handleSubmit} className="mt-4">
+            Login
+          </StyledButton>
         </Form.Group>
       </Form>
     </div>

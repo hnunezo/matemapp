@@ -13,7 +13,7 @@ import { isNot } from "./features/page/pageSlice";
 import Login from "./components/Login/Login";
 import Intro from "./components/Intro/Intro";
 import HomeWithUser from "./components/Home/HomeWithUser";
-import RegisterForm from "./components/RegisterForm/RegisterForm";
+import RegisterFormFormik from "./components/RegisterForm/RegisterFormFormik";
 
 const App = () => {
   const exercises = useSelector((state) => state.exercises.exercises);
@@ -53,7 +53,7 @@ const App = () => {
                 path="/exam/exercises"
                 element={<Exercises exercises={exercises} />}
               />
-              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/register" element={<RegisterFormFormik />} />
             </Routes>
           </Container>
         </>

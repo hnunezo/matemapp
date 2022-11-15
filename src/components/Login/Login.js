@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import StyledButton from "../stateless/StyledButton";
 import loginService from "../../services/login";
@@ -10,16 +10,24 @@ import { isLoading } from "../../features/page/pageSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    if (message !== "") {
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    }
+  }, [message]);
 
   const goHome = () => {
     dispatch(isLoading());
     navigate("/home");
   };
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +41,7 @@ const Login = () => {
       );
       goHome();
     } catch (err) {
-      console.log("wrong credential");
+      setMessage("Wrong Credentials");
     }
   };
   return (
@@ -42,9 +50,10 @@ const Login = () => {
       className={"d-flex flex-column justify-content-center"}
     >
       <h1>Login</h1>
+
       <Form className="mt-5">
         <Form.Group className="d-flex flex-column align-items-center">
-          <Form.Control
+          <input
             name="email"
             placeholder="Email..."
             value={form.email}
@@ -57,7 +66,7 @@ const Login = () => {
               })
             }
           />
-          <Form.Control
+          <input
             name="password"
             placeholder="Password..."
             type="password"
@@ -72,9 +81,17 @@ const Login = () => {
             }
             className="mt-3"
           />
-          <StyledButton onClick={handleSubmit} className="mt-4">
-            Login
-          </StyledButton>
+          <div
+            style={{ position: "relative", width: "15rem" }}
+            className="d-flex flex-column align-items-center"
+          >
+            <StyledButton onClick={handleSubmit} className="mt-4">
+              Login
+            </StyledButton>
+            <span style={{ position: "absolute", top: "5rem", color: "red" }}>
+              {message}
+            </span>
+          </div>
         </Form.Group>
       </Form>
     </div>

@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseUrl = "https://node-math-production.up.railway.app/api/login";
+const baseUrl =
+  "https://handsomely-territory-production.up.railway.app/api/login";
 
 const login = async (credentials) => {
   const { data } = await axios.post(baseUrl, credentials);

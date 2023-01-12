@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseUrl = "https://node-math-production.up.railway.app/api/exams";
+const baseUrl =
+  "https://handsomely-territory-production.up.railway.app/api/exams";
 
 const getExams = (id) => {
   const request = axios.get(`${baseUrl}/user/${id}`);
